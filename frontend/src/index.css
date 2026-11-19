@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+/* Paleta Inspira: lila y menta */
+@theme {
+  --color-lila-50: #f6f2fd;
+  --color-lila-100: #ece4fb;
+  --color-lila-200: #d9c9f6;
+  --color-lila-300: #bfa6ee;
+  --color-lila-400: #a587e6;
+  --color-lila-500: #8b68d9;
+  --color-lila-600: #7451c2;
+  --color-lila-700: #5d3f9c;
+  --color-menta-50: #effbf6;
+  --color-menta-100: #d8f5e9;
+  --color-menta-200: #b3ead4;
+  --color-menta-300: #85dbba;
+  --color-menta-400: #56c69c;
+  --color-menta-500: #33aa80;
+  --color-menta-600: #248866;
+  --color-tinta: #2f2a3d;
+
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-logo: "Pacifico", cursive;
+}
+
+body {
+  @apply bg-lila-50/60 text-tinta antialiased;
+}
