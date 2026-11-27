@@ -1,5 +1,6 @@
 {
   "python.defaultInterpreterPath": "${workspaceFolder}/backend/venv",
   "files.associations": { "*.css": "tailwindcss" },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "python.terminal.useEnvFile": true
 }

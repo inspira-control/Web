@@ -8,13 +8,18 @@ async function request(path, options = {}) {
       ...options,
     });
   } catch {
-    throw new Error("No se pudo conectar con el servidor. ¿Está encendido el backend?");
+    throw new Error("No se pudo conectar con el servidor. Revisa tu conexión o que el backend esté encendido.");
   }
   if (res.status === 204) return null;
   const data = await res.json().catch(() => null);
   if (!res.ok) {
-    const err = new Error("Revisa los datos del formulario.");
-    err.fields = data && typeof data === "object" ? data : {};
+    let mensaje = "Ocurrió un error inesperado. Intenta de nuevo.";
+    if (res.status === 400) mensaje = "Revisa los campos marcados en rojo.";
+    else if (res.status === 404) mensaje = "Ese registro ya no existe; puede que se haya eliminado. Actualizamos la lista.";
+    else if (res.status >= 500) mensaje = "El servidor tuvo un problema. Intenta de nuevo en un momento.";
+    const err = new Error(mensaje);
+    err.status = res.status;
+    if (res.status === 400 && data && typeof data === "object") err.fields = data;
     throw err;
   }
   return data;

@@ -1,11 +1,19 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar.jsx";
+import { useEffect, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import Sidebar, { secciones } from "./Sidebar.jsx";
 import { IconMenu, IconWhatsApp } from "./Icons.jsx";
 import { whatsappLink } from "../config.js";
 
 export default function Layout() {
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const { pathname } = useLocation();
+  const actual = secciones.flatMap((s) => s.enlaces).find((e) => e.to === pathname);
+
+  // Título de la pestaña del navegador y regreso al inicio de la página al cambiar de sección
+  useEffect(() => {
+    document.title = actual && actual.to !== "/" ? `${actual.label} · Inspira` : "Inspira · Regalos personalizados";
+    window.scrollTo(0, 0);
+  }, [actual]);
 
   return (
     <div className="min-h-screen">
@@ -17,11 +25,11 @@ export default function Layout() {
           <IconMenu />
         </button>
         <span className="font-logo text-2xl text-lila-500">Inspira</span>
-        <span className="w-9" />
+        <span className="min-w-9 text-right text-sm font-semibold text-tinta/60">{actual && actual.to !== "/" ? actual.label : ""}</span>
       </header>
 
       <main className="lg:pl-72">
-        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8 lg:py-12">
+        <div className="mx-auto max-w-6xl px-4 pb-24 pt-8 sm:px-8 lg:pt-12">
           <Outlet />
         </div>
         <footer className="border-t border-lila-100 py-6 text-center text-sm text-tinta/50">
@@ -35,6 +43,7 @@ export default function Layout() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Escríbenos por WhatsApp"
+        title="Escríbenos por WhatsApp"
         className="fixed bottom-5 right-5 z-20 rounded-full bg-menta-500 p-4 text-white shadow-lg shadow-menta-500/30 transition hover:scale-105 hover:bg-menta-600"
       >
         <IconWhatsApp width={26} height={26} />

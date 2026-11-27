@@ -2,7 +2,7 @@
 Configuración de Django para el backend de Inspira.
 
 Todos los valores sensibles o que cambian entre tu equipo y el servidor
-se leen de variables de entorno (archivo .env en local).
+se leen de variables de entorno.
 """
 import os
 from pathlib import Path
@@ -13,10 +13,8 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
-
 def env_list(name, default=""):
     return [v.strip() for v in os.getenv(name, default).split(",") if v.strip()]
-
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "clave-solo-para-desarrollo-cambiala")
 DEBUG = os.getenv("DJANGO_DEBUG", "True").lower() in ("1", "true", "yes")
