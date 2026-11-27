@@ -64,38 +64,48 @@ export default function Clientes() {
           </div>
         ) : (
           <>
-            {/* Tabla en pantallas medianas y grandes */}
-            <div className="hidden overflow-x-auto xl:block">
-              <table className="w-full text-left text-sm">
+            {/* Tabla en pantallas grandes: ancho fijo por columna y texto en varias líneas para que se vea completa sin scroll */}
+            <div className="hidden xl:block">
+              <table className="w-full table-fixed text-left text-sm">
+                <colgroup>
+                  <col className="w-[8%]" />
+                  <col className="w-[13%]" />
+                  <col className="w-[16%]" />
+                  <col className="w-[12%]" />
+                  <col className="w-[17%]" />
+                  <col className="w-[10%]" />
+                  <col />
+                  <col className="w-[5.5rem]" />
+                </colgroup>
                 <thead className="bg-menta-50 text-sm text-menta-600">
-                  <tr>
+                  <tr className="align-bottom">
                     <Columna campo="codigo" {...colProps}>Código</Columna>
                     <Columna campo="nombre" {...colProps}>Nombre</Columna>
                     <th className="px-3 py-3.5 font-bold">Dirección</th>
                     <th className="px-3 py-3.5 font-bold">Teléfono</th>
                     <Columna campo="correo" {...colProps}>Correo</Columna>
-                    <Columna campo="fecha_nacimiento" {...colProps} className="whitespace-nowrap">Fecha de nacimiento</Columna>
+                    <Columna campo="fecha_nacimiento" {...colProps}>Fecha de nacimiento</Columna>
                     <th className="px-3 py-3.5 font-bold">Gustos</th>
-                    <th className="px-3 py-3.5 text-right font-bold">Acciones</th>
+                    <th className="px-2 py-3.5 text-right font-bold">Acciones</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-lila-50">
+                <tbody className="divide-y divide-lila-50 break-words">
                   {filtrados.map((c) => (
                     <tr key={c.id} className="align-top hover:bg-lila-50/50">
-                      <td className="whitespace-nowrap px-3 py-3.5 text-sm font-bold tabular-nums text-lila-600">{c.codigo}</td>
-                      <td className="min-w-[8rem] px-3 py-3.5 font-semibold">{c.nombre}</td>
-                      <td className="min-w-[9rem] px-3 py-3.5 text-sm text-tinta/70">{c.direccion}</td>
-                      <td className="whitespace-nowrap px-3 py-3.5 text-sm">
+                      <td className="px-3 py-3.5 font-bold tabular-nums text-lila-600">{c.codigo}</td>
+                      <td className="px-3 py-3.5 font-semibold">{c.nombre}</td>
+                      <td className="px-3 py-3.5 text-tinta/70">{c.direccion}</td>
+                      <td className="px-3 py-3.5">
                         <a href={`tel:${c.telefono.replace(/[^\d+]/g, "")}`} className="hover:text-lila-600">{c.telefono}</a>
                       </td>
-                      <td className="px-3 py-3.5 text-sm">
-                        {c.correo
-                          ? <a href={`mailto:${c.correo}`} className="text-tinta/70 hover:text-lila-600">{c.correo}</a>
-                          : <span className="whitespace-nowrap text-xs font-semibold text-amber-700">Falta correo</span>}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-3.5 text-sm text-tinta/70">{formatoFecha(c.fecha_nacimiento)}</td>
-                      <td className="min-w-[9rem] px-3 py-3.5 text-sm text-tinta/70">{c.gustos || <Vacio />}</td>
                       <td className="px-3 py-3.5">
+                        {c.correo
+                          ? <a href={`mailto:${c.correo}`} className="text-tinta/70 [overflow-wrap:anywhere] hover:text-lila-600">{c.correo}</a>
+                          : <span className="text-xs font-semibold text-amber-700">Falta correo</span>}
+                      </td>
+                      <td className="px-3 py-3.5 text-tinta/70">{formatoFecha(c.fecha_nacimiento)}</td>
+                      <td className="px-3 py-3.5 text-tinta/70">{c.gustos || <Vacio />}</td>
+                      <td className="px-2 py-2">
                         <Acciones compacto nombre={c.nombre} onEditar={() => crud.abrirEditar(c)} onEliminar={() => crud.setPorEliminar(c)} />
                       </td>
                     </tr>
